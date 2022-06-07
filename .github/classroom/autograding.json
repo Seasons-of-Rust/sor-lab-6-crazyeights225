@@ -1,0 +1,24 @@
+{
+  "tests": [
+    {
+      "name": "Check formatting",
+      "setup": "",
+      "run": "cargo fmt --check",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    },
+    {
+      "name": "Check clippy",
+      "setup": "",
+      "run": "cargo clippy -- -D warnings",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    }
+  ]
+}
