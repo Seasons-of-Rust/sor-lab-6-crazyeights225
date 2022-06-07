@@ -1,3 +1,4 @@
+[![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-c66648af7eb3fe8bc4f294546bfd86ef473780cde1dea487d3c4ff354943c9ae.svg)](https://classroom.github.com/online_ide?assignment_repo_id=7982844&assignment_repo_type=AssignmentRepo)
 # Summer of Rust Lab 6: Advent of Code
 
 This week, we'll learn about traits, generics, and closures. We'll also go back
