@@ -6,7 +6,20 @@ use std::{
 
 fn compute_fuel(x: i32) -> i32 {
     if x > 0 {
-        ((x / 3) as i32) - 2
+        (x / 3) - 2
+    } else {
+        0
+    }
+}
+
+fn compute_fuel_recursive(x: i32) -> i32 {
+    if x > 0 {
+        let y: i32 = (x / 3) - 2;
+        if y > 0 {
+            y + compute_fuel_recursive(y)
+        } else {
+            0
+        }
     } else {
         0
     }
@@ -18,7 +31,6 @@ fn main() {
         println!("Usage: ./day1 <filename>");
     }
     let fname = &args[1];
-
     let numbers: Vec<i32> = BufReader::new(File::open(fname).expect("file not found"))
         .lines() // Go through each line
         .map(|line| {
@@ -29,5 +41,8 @@ fn main() {
         .collect();
 
     let sum: i32 = numbers.iter().map(|x| compute_fuel(*x)).sum();
-    println!("Sum: {}", sum);
+    println!("Part 1: Sum: {}", sum);
+
+    let sum_p2: i32 = numbers.iter().map(|x| compute_fuel_recursive(*x)).sum();
+    println!("Part 2: Sum: {}", sum_p2);
 }

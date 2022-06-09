@@ -4,6 +4,7 @@ use std::{
     fs::File,
     io::{BufRead, BufReader},
 };
+//use std::result;
 
 pub enum ExitCodes {
     Success,
@@ -87,10 +88,28 @@ pub fn run(gap: &mut GravityAssistParser) -> ExitCodes {
     }
 }
 
+pub fn eval(numbers: Vec<i32>, noun: i32, verb: i32) -> Result<i32, String> {
+    let mut ga_parser = GravityAssistParser {
+        ip: 0,
+        instructions: numbers,
+    };
+    ga_parser.update_mem(1, noun);
+    ga_parser.update_mem(2, verb);
+
+    let ec = run(&mut ga_parser);
+    match ec {
+        ExitCodes::GracefulExit => {
+            let x = ga_parser.instructions.get(0).unwrap();
+            Ok(*x)
+        }
+        _ => Err(format!("[!] ERROR: {}", ec)),
+    }
+}
+
 fn main() {
     let args: Vec<String> = env::args().collect();
     if args.len() < 2 {
-        println!("Usage: ./day1 <filename>");
+        println!("Usage: ./day2 <filename>");
     }
     let fname = &args[1];
 
@@ -107,21 +126,20 @@ fn main() {
         })
         .collect();
 
-    let mut ga_parser = GravityAssistParser {
-        ip: 0,
-        instructions: numbers,
-    };
-    ga_parser.update_mem(1, 12);
-    ga_parser.update_mem(2, 2);
+    let p1 = eval(numbers.clone(), 12, 2);
+    match p1 {
+        Ok(x) => println!("[PART 1] Result: {}", x),
+        Err(e) => println!("[PART 1] {}", e),
+    }
 
-    let ec = run(&mut ga_parser);
-    match ec {
-        ExitCodes::GracefulExit => {
-            let x = ga_parser.instructions.get(0).unwrap();
-            println!("Result: {}", x);
-        }
-        _ => {
-            println!("[!] ERROR: {}", ec);
+    for i in 0..99 {
+        for j in 0..99 {
+            let r = eval(numbers.clone(), i, j);
+            if let Ok(19690720) = r {
+                println!("[PART 2] Match! {}, {}, {}", i, j, 100 * i + j);
+                return;
+            }
         }
     }
+    println!("[PART 2] [ERROR] No params that produce the target result!");
 }
